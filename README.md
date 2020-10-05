@@ -1,0 +1,1 @@
+HF2: A specifikációhoz képest a "create player" és "create team" modal ablakokat lecseréltem formokat tartalmazó oldalakra.
