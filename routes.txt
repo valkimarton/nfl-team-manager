@@ -1,0 +1,89 @@
+Sok csúnya kriksz-kraksz van benne: kódrészletek, kommentek a jövő heti énemnek, olvasásra nem ajánlott :)
+
+Csapatok es jatekosok
+- index.html    - csapatok listája
+- team.html     - EDIT team, játékosok listája
+- new_team.html - ADD team
+- player.html   - EDIT, DELETE player
+- new_player    - ADD Player
+
+Routing
+
+GET     /                       - index.html (teams)
+    getTeamListMW
+    renderMW(index.html)
+GET, POST     /teams/new              - new_team.html , CREATE TEAM
+    saveTeamMw() --------
+        if (typeof req.body.name === 'undefined'){      // Ha nincs a kérésben body (tehát GET jött), akkor meghívjuk a kövi MW-t.
+            return next();
+        }
+        adatfelfolgozás()           // Ha a res.local-ban már van beállítva Team (getTeamMW hívva volt előtte Edit esetben), akkor nem újat hoz létre, hanem azt módosítja.
+        if (success)
+            res.redirect('/')       // siker esetén átirányít a egy másik oldalra. Ezzel megszakad a MW lánc. Egyébként folytatódik.
+        
+        res.local....       // -ba belerak valami hibaüzenetet, ha success === false (A res.local objecten belül egy mezőben elhelyezzük a hibaüzenetet.)
+        next();
+
+    renderMW(new_team.html)
+        - ha volt érték beküldve, akkor az eges form elemek azzal töltődnek fel. 
+        - Ha nem , akkor nem.
+GET, POST    /team/edit/:teamid           - EDIT TEAM, edit team page
+    getTeamMW()
+        Az adatbázistól elkéri a csapat adatait
+        Berakja a res.local egy mezőjébe
+    getPlayersForTeamMW()
+    saveTeamMw()
+    renderMW(new_team.html)
+GET     /team/:teamid               - team.html
+    getTeamMW()
+    getPlayersForTeamMW()
+    renderMW(team.html)
+
+GET     /player/:playerid           - player.html
+    getPlayerMW()
+    renderMW()
+GET, POST   /player/:teamid/new     - new_player.html, CREATE PLAYER
+    getTeamMw()
+    getPlayerMw()
+    savePlayerMw()
+    renderMW()
+
+GET, POST    /player/:teamid/edit/:playerid      - EDIT PLAYER
+    getTeamMW()
+    getPlayerMW()
+    saveTeamMW()
+    renderMW()
+GET     /player/:teamid/del/:playerid    - DELETE player
+    getTeamMw()     Ugyanaz mint a getPlayerMW, csak csapatra
+    getPlayerMw()
+        Elkéri a Player adatait. Ellenőrzi azt is h létezik-e a Player. Ha nem, akkor átirányít játékoslistára.
+            db("...", function(result){
+                if (result.length === 0 {
+                    return res.redirect('/team/:teamid');
+                })
+                res.locals.payer = result[0]; 0     // nem biztos h litában adja vissza. Akkor máshogy kell ellenőrizni h létezik-e.
+            })
+    deletePlayerMw()
+        Ez csak törli a játékost
+            res.locals.player.delete()
+            res.redirect('team/:teamid')
+
+
+
+MWs:
+    middlewares/common/
+        renderMW.js
+    middlewares/team/
+        getTeamListMW.js
+        getTeamMW.js
+        saveTeamMw.js
+            optional: updateTeamMw()
+
+    middlewares/player/
+        getPlayersForTeamMW()
+        getPlayerMW()
+        savePlayerMw()
+        deletePlayerMw()
+
+
+
