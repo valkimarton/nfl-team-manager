@@ -1,0 +1,48 @@
+<%- include('header') -%>
+<%- include('navbar') -%>
+
+    <div class="container">
+        <div class="row justify-content-md-center">
+          <div class="col-12 col-lg-8">
+            <h5>
+                <% if (typeof player === 'undefined') { %>
+                    Create
+                <% }else{ %>
+                    Edit
+                <% } %>
+                player
+            </h5> <br/> <br/>
+            <form action="/team/12">
+                <div class="form-group">
+                  <label for="name">Name</label>
+                  <input type="text" class="form-control" id="name" placeholder="Enter name">
+                </div>
+                <div class="form-group">
+                  <label for="age">Age</label>
+                  <input type="number" class="form-control" id="age" placeholder="">
+                </div>
+                <div class="form-group">
+                    <label for="number">Jersey number</label>
+                    <input type="number" class="form-control" id="number" placeholder="">
+                </div>
+                <div class="form-group">
+                    <label for="position">Position</label>
+                    <select class="form-control" id="position">
+                        <option>QB</option>
+                        <option>OL</option>
+                        <option>WR</option>
+                        <option>RB</option>
+                        <option>TE</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="bio">Bio</label>
+                    <textarea class="form-control" id="bio" rows="3"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>  
+          </div>
+        </div>
+    </div>
+
+<%- include('footer') -%>

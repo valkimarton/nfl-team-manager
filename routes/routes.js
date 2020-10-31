@@ -11,26 +11,21 @@ const saveTeamMW = require('../middleware/team/saveTeamMW');
 module.exports = function (app) {
     const objectRepository = {};
 
-    app.get('/',
-        getTeamListMW(objectRepository),
-        renderMW(objectRepository, 'index'));
+    
 
     app.use('/teams/new',
+        saveTeamMW(objectRepository),
+        renderMW(objectRepository, 'new_team'));
+    app.use('/team/edit/:teamid',
+        getTeamMW(objectRepository),
+        getPlayersForTeamMW(objectRepository),
         saveTeamMW(objectRepository),
         renderMW(objectRepository, 'new_team'));
     app.get('/team/:teamid',
         getTeamMW(objectRepository),
         getPlayersForTeamMW(objectRepository),
         renderMW(objectRepository, 'team'));
-    app.use('/team/edit/:teamid',
-        getTeamMW(objectRepository),
-        getPlayersForTeamMW(objectRepository),
-        saveTeamMW(objectRepository),
-        renderMW(objectRepository, 'new_team'));
 
-    app.get('/player/:playerid',
-        getPlayerMW(objectRepository),
-        renderMW(objectRepository, 'player'));
     app.use('/player/:teamid/new',
         getTeamMW(objectRepository),
         savePlayerMW(objectRepository),
@@ -45,4 +40,11 @@ module.exports = function (app) {
         getPlayerMW(objectRepository),
         deletePlayerMW(objectRepository),
         renderMW(objectRepository, 'team'));
+    app.get('/player/:playerid',
+        getPlayerMW(objectRepository),
+        renderMW(objectRepository, 'player'));
+    
+    app.get('/',
+        getTeamListMW(objectRepository),
+        renderMW(objectRepository, 'index'));
 };
