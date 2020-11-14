@@ -2,32 +2,26 @@
  * Loads the players of a team from the database based on :teamid
  * The result is saved to res.locals.players
  */
+const requireOption = require('../common/requireOption');
 
 module.exports = function (objectrepository) {
+
+    const PlayerModel = requireOption(objectrepository, 'PlayerModel');
+
     return function (req, res, next) {
         console.log("getPlayersForTeamMW");
 
-        res.locals.players = [
-            {
-                id: 1,
-                name: "DeAndre Hopkins",
-                age: 28,
-                jersey_number: 10,
-                team: "Arizona Cardinals",
-                position: "WR",
-                bio: "DeAndre Hopkins is an American football wide receiver for the Arizona Cardinals..."
-            },
-            {
-                id: 2,
-                name: "Kyler Murray",
-                age: 24,
-                jersey_number: 1,
-                team: "Arizona Cardinals",
-                position: "QB",
-                bio: "Kyler Murray is an American football quarterback for the Arizona Cardinals..."
-            }
-        ]
+        if (typeof res.locals.team === 'undefined') {
+            return next();
+        }
 
-        next();
+        PlayerModel.find({ _team: res.locals.team._id }, (err, players) => {
+            if (err) {
+                return next(err);
+            }
+
+            res.locals.players = players;
+            return next();
+        });
     };
 };

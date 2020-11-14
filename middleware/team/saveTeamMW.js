@@ -5,9 +5,45 @@
  * Redirects to /team after success
  */
 
+const requireOption = require('../common/requireOption');
+
 module.exports = function (objectrepository) {
+
+    const TeamModel = requireOption(objectrepository, 'TeamModel');
+
     return function (req, res, next) {
         console.log("saveTeamMW");
-        next()
+        console.log(req.body);
+        
+        if (
+            typeof req.body.name === 'undefined' ||
+            typeof req.body.estimated === 'undefined' ||
+            typeof req.body.owner === 'undefined' ||
+            typeof req.body.coach === 'undefined'
+        ) {
+            return next();
+        }
+
+        if (typeof res.locals.team === 'undefined'){
+            res.locals.team = new TeamModel();
+        }
+
+        if (Number.isNaN(parseInt(req.body.estimated, 10))) {
+            return next(new Error('Year of estimtion must be a number!'));
+        }
+
+        res.locals.team.name = req.body.name;
+        res.locals.team.estimated = parseInt(req.body.estimated, 10);
+        res.locals.team.owner = req.body.owner;
+        res.locals.team.coach = req.body.coach;
+        res.locals.team.image = req.body.image;
+
+        res.locals.team.save((err) => {
+            if (err){
+                return next(err);
+            }
+
+            return res.redirect(`/team/${res.locals.team._id}`);
+        });
     };
 };

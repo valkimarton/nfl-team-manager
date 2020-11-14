@@ -3,19 +3,22 @@
  * The result is saved to res.locals.team
  */
 
+const requireOption = require('../common/requireOption');
+
 module.exports = function (objectrepository) {
+
+    const TeamModel = requireOption(objectrepository, 'TeamModel');
+
     return function (req, res, next) {
         console.log("getTeamMW");
-
-        res.locals.team = {
-            id: '1',
-            name: "Arizona Cardinals",
-            estimated: 1954,
-            owner: "John Doe",
-            coach: "Kliff Kingsbury",
-            image: "https://content.sportslogos.net/logos/7/177/thumbs/kwth8f1cfa2sch5xhjjfaof90.gif"
-        }
-
-        next();
+        TeamModel.findOne({_id: req.params.teamid}, (err, team) => {
+            if (err || !team) {
+                return next(err);
+            }
+            
+            console.log(team);
+            res.locals.team = team;
+            return next()
+        });
     };
 };

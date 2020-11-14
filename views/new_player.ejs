@@ -12,22 +12,25 @@
                 <% } %>
                 player
             </h5> <br/> <br/>
-            <form action="/team/12">
+            <form method="POST">
                 <div class="form-group">
                   <label for="name">Name</label>
-                  <input type="text" class="form-control" id="name" placeholder="Enter name">
+                  <input type="text" class="form-control" id="name" name="name" placeholder="Enter name"
+                            value="<%= (typeof player === 'undefined') ? '' : player.name %>">
                 </div>
                 <div class="form-group">
                   <label for="age">Age</label>
-                  <input type="number" class="form-control" id="age" placeholder="">
+                  <input type="number" class="form-control" id="age" name="age" placeholder=""
+                            value="<%= (typeof player === 'undefined') ? '' : player.age %>">
                 </div>
                 <div class="form-group">
                     <label for="number">Jersey number</label>
-                    <input type="number" class="form-control" id="number" placeholder="">
+                    <input type="number" class="form-control" id="number" name="number"
+                            value="<%= (typeof player === 'undefined') ? '' : player.number %>">
                 </div>
                 <div class="form-group">
                     <label for="position">Position</label>
-                    <select class="form-control" id="position">
+                    <select class="form-control" id="position" name="position"> <!-- TODO: value = current if defined -->
                         <option>QB</option>
                         <option>OL</option>
                         <option>WR</option>
@@ -37,7 +40,7 @@
                 </div>
                 <div class="form-group">
                     <label for="bio">Bio</label>
-                    <textarea class="form-control" id="bio" rows="3"></textarea>
+                    <textarea class="form-control" id="bio" name="bio" rows="3"><%= (typeof player === 'undefined') ? '' : player.bio %></textarea>
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>  

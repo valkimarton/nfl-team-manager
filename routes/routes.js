@@ -8,17 +8,20 @@ const getTeamMW = require('../middleware/team/getTeamMW');
 const getTeamListMW = require('../middleware/team/getTeamListMW');
 const saveTeamMW = require('../middleware/team/saveTeamMW');
 
-module.exports = function (app) {
-    const objectRepository = {};
+const TeamModel = require('../model/team');
+const PlayerModel = require('../model/player');
 
-    
+module.exports = function (app) {
+    const objectRepository = {
+        TeamModel: TeamModel,
+        PlayerModel: PlayerModel
+    };
 
     app.use('/teams/new',
         saveTeamMW(objectRepository),
         renderMW(objectRepository, 'new_team'));
     app.use('/team/edit/:teamid',
         getTeamMW(objectRepository),
-        getPlayersForTeamMW(objectRepository),
         saveTeamMW(objectRepository),
         renderMW(objectRepository, 'new_team'));
     app.get('/team/:teamid',
@@ -33,14 +36,15 @@ module.exports = function (app) {
     app.use('/player/:teamid/edit/:playerid',
         getTeamMW(objectRepository),
         getPlayerMW(objectRepository),
-        saveTeamMW(objectRepository),
+        savePlayerMW(objectRepository),
         renderMW(objectRepository, 'new_player'));
     app.get('/player/:teamid/del/:playerid',
         getTeamMW(objectRepository),
         getPlayerMW(objectRepository),
         deletePlayerMW(objectRepository),
         renderMW(objectRepository, 'team'));
-    app.get('/player/:playerid',
+    app.get('/player/:teamid/:playerid',
+        getTeamMW(objectRepository),
         getPlayerMW(objectRepository),
         renderMW(objectRepository, 'player'));
     

@@ -12,22 +12,31 @@
                 <% } %>
                  team
             </h5> <br/> <br/>
-            <form action="/">
+            <form method="POST">
                 <div class="form-group">
                   <label for="name">Name</label>
-                  <input type="text" class="form-control" id="name" placeholder="Enter team name">
+                  <input type="text" class="form-control" id="name" name="name" placeholder="Enter team name"
+                            value="<%= (typeof team === 'undefined') ? '' : team.name %>">
                 </div>
                 <div class="form-group">
                   <label for="estimated">Estimated</label>
-                  <input type="number" class="form-control" id="estimated" placeholder="">
+                  <input type="number" class="form-control" id="estimated" name="estimated" placeholder=""
+                            value="<%= (typeof team === 'undefined') ? '' : team.estimated %>">
                 </div>
                 <div class="form-group">
                     <label for="owner">Owner</label>
-                    <input type="text" class="form-control" id="owner" placeholder="Enter owner name">
+                    <input type="text" class="form-control" id="owner" name="owner" placeholder="Enter owner name"
+                            value="<%= (typeof team === 'undefined') ? '' : team.owner %>">
                 </div>
                 <div class="form-group">
                     <label for="coach">Head coach</label>
-                    <input type="text" class="form-control" id="coach" placeholder="Enter head coach name">
+                    <input type="text" class="form-control" id="coach" name="coach" placeholder="Enter head coach name"
+                            value="<%= (typeof team === 'undefined') ? '' : team.coach %>">
+                </div>
+                <div class="form-group">
+                    <label for="image">Image url</label>
+                    <input type="text" class="form-control" id="image" name="image" placeholder="http://image-url.com/image.jpg"
+                            value="<%= (typeof team === 'undefined') ? '' : team.image %>">
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>  
