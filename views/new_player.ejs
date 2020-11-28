@@ -1,7 +1,7 @@
 <%- include('header') -%>
 <%- include('navbar') -%>
 
-    <div class="container">
+    <div class="container" style="height: 100%;  background-color:rgb(248, 248, 248); border: 2px solid grey">
         <div class="row justify-content-md-center">
           <div class="col-12 col-lg-8">
             <h5>
@@ -14,33 +14,56 @@
             </h5> <br/> <br/>
             <form method="POST">
                 <div class="form-group">
-                  <label for="name">Name</label>
+                  <label for="name"><b> Name </b></label>
                   <input type="text" class="form-control" id="name" name="name" placeholder="Enter name"
                             value="<%= (typeof player === 'undefined') ? '' : player.name %>">
                 </div>
                 <div class="form-group">
-                  <label for="age">Age</label>
+                  <label for="age"><b>Age</b></label>
                   <input type="number" class="form-control" id="age" name="age" placeholder=""
                             value="<%= (typeof player === 'undefined') ? '' : player.age %>">
                 </div>
                 <div class="form-group">
-                    <label for="number">Jersey number</label>
+                    <label for="number"><b>Jersey number</b></label>
                     <input type="number" class="form-control" id="number" name="number"
                             value="<%= (typeof player === 'undefined') ? '' : player.number %>">
                 </div>
                 <div class="form-group">
-                    <label for="position">Position</label>
-                    <select class="form-control" id="position" name="position"> <!-- TODO: value = current if defined -->
-                        <option>QB</option>
-                        <option>OL</option>
-                        <option>WR</option>
-                        <option>RB</option>
-                        <option>TE</option>
-                    </select>
+                    <label for="team"><b>Team</b></label>
+                    <select class="form-control" id="team" name="team"> <!-- TODO: value = current if defined -->
+                        <% teams.forEach(function(current_team) { %>
+                            <option value=<%= current_team._id %> 
+                            <% if (typeof player !== 'undefined' && current_team._id.toString() === player._team.toString()) { %>
+                                selected
+                            <% } else if (typeof player === 'undefined' && current_team._id.toString() === team._id.toString()) { %>
+                                selected
+                            <% } %> >
+                                <%= current_team.name %>
+                            </option>
+
+                        <% }); %>
+
+                        
+                    </select>   
                 </div>
                 <div class="form-group">
-                    <label for="bio">Bio</label>
+                    <label for="position"><b>Position</b></label>
+                    <select class="form-control" id="position" name="position"> <!-- TODO: value = current if defined -->
+                        <option value="QB" <%= (typeof player !== 'undefined' && player.position === 'QB') ? 'selected' : '' %> >QB</option>
+                        <option value="OL" <%= (typeof player !== 'undefined' && player.position === 'OL') ? 'selected' : '' %> >OL</option>
+                        <option value="WR" <%= (typeof player !== 'undefined' && player.position === 'WR') ? 'selected' : '' %> >WR</option>
+                        <option value="RB" <%= (typeof player !== 'undefined' && player.position === 'RB') ? 'selected' : '' %> >RB</option>
+                        <option value="TE" <%= (typeof player !== 'undefined' && player.position === 'TE') ? 'selected' : '' %>>TE</option>
+                    </select>   
+                </div>
+                <div class="form-group">
+                    <label for="bio"><b>Bio</b></label>
                     <textarea class="form-control" id="bio" name="bio" rows="3"><%= (typeof player === 'undefined') ? '' : player.bio %></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="image"><b>Image url</b></label>
+                    <input type="text" class="form-control" id="image" name="image" placeholder="http://image-url.com/image.jpg"
+                            value="<%= (typeof player === 'undefined') ? '' : player.image %>">
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>  

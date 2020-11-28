@@ -30,10 +30,12 @@ module.exports = function (app) {
         renderMW(objectRepository, 'team'));
 
     app.use('/player/:teamid/new',
+        getTeamListMW(objectRepository),
         getTeamMW(objectRepository),
         savePlayerMW(objectRepository),
         renderMW(objectRepository, 'new_player'));
     app.use('/player/:teamid/edit/:playerid',
+        getTeamListMW(objectRepository),
         getTeamMW(objectRepository),
         getPlayerMW(objectRepository),
         savePlayerMW(objectRepository),

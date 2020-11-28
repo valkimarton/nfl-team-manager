@@ -28,19 +28,26 @@ module.exports = function (objectrepository) {
             res.locals.player = new PlayerModel();
         }
 
+        if (req.body.name === '') {
+            return next(new Error('Name must not be empty!'));
+        }
         if (Number.isNaN(parseInt(req.body.age, 10))) {
             return next(new Error('Age must be a number!'));
         }
         if (Number.isNaN(parseInt(req.body.number, 10))) {
             return next(new Error('Jersey number must be a number!'));
         }
+        
+        console.log('position: ' + req.body.position);
+        console.log('team: ' + req.body.team);
 
         res.locals.player.name = req.body.name;
         res.locals.player.age = parseInt(req.body.age, 10);
         res.locals.player.number = parseInt(req.body.number, 10);
         res.locals.player.position = req.body.position;
         res.locals.player.bio = req.body.bio;
-        res.locals.player._team = res.locals.team._id;
+        res.locals.player.image = req.body.image;
+        res.locals.player._team = req.body.team;
 
         res.locals.player.save(err => {
             if (err) {

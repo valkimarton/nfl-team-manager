@@ -7,6 +7,7 @@ const Player = db.model('Player', {
     number: Number,
     position: String,
     bio: String,
+    image: String,
     _team: {
         type: Schema.Types.ObjectId,
         ref: 'Team'

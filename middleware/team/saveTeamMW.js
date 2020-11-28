@@ -28,6 +28,9 @@ module.exports = function (objectrepository) {
             res.locals.team = new TeamModel();
         }
 
+        if (req.body.name === '') {
+            return next(new Error('Name must not be empty!'));
+        }
         if (Number.isNaN(parseInt(req.body.estimated, 10))) {
             return next(new Error('Year of estimtion must be a number!'));
         }

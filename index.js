@@ -13,7 +13,7 @@ require('./routes/routes')(app)
 
 // Error handling middleware
 app.use((err, req, res, next) => {
-    res.end('Problem...');
+    res.end(err.toString());
     console.log(err);
 });
 
