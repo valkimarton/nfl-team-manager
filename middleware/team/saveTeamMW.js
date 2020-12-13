@@ -12,8 +12,6 @@ module.exports = function (objectrepository) {
     const TeamModel = requireOption(objectrepository, 'TeamModel');
 
     return function (req, res, next) {
-        console.log("saveTeamMW");
-        console.log(req.body);
         
         if (
             typeof req.body.name === 'undefined' ||
@@ -32,7 +30,7 @@ module.exports = function (objectrepository) {
             return next(new Error('Name must not be empty!'));
         }
         if (Number.isNaN(parseInt(req.body.estimated, 10))) {
-            return next(new Error('Year of estimtion must be a number!'));
+            return next(new Error('Year of estimation must be a number!'));
         }
 
         res.locals.team.name = req.body.name;

@@ -9,7 +9,6 @@ module.exports = function (objectrepository) {
     const PlayerModel = requireOption(objectrepository, 'PlayerModel');
 
     return function (req, res, next) {
-        console.log("getPlayerMW");
 
         PlayerModel.findOne(
             {
@@ -19,8 +18,6 @@ module.exports = function (objectrepository) {
                 if (err || !player) {
                     return next(err);
                 }
-                
-                console.log("Player: " + player);
                 res.locals.player = player;
                 return next();
             });
